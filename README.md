@@ -18,7 +18,6 @@ Participant → Enrolment (1‑to‑many)
 Enrolment → Result (1‑to‑1)
 Participant ↔ Event (many‑to‑many via Enrolment)
 
-[Download the PDF Document](file:///C:\Users\Naeem Meyer\Downloads)
 
 # Section B – API Endpoint Plan
 
