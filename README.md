@@ -1,6 +1,8 @@
 # ST10468609-Mogamat-Naeem-Meyer-RaceDay-POE
 
-# Section A – Entity Relationship Diagram (ERD)
+## Section A – ERD (Entity Relationship Diagram)
+
+![RaceDay ERD](docs/RaceDay_ERD.png)
 
 Organiser (OrganiserID PK, Name, ContactInfo, Email [Unique], PasswordHash)
 
