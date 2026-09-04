@@ -146,5 +146,85 @@ INSERT INTO Result (EnrolmentID, FinishTime, Position, WeatherInfo, RouteInfo)
 VALUES (1, '03:45:00', 12, 'Sunny', 'Standard Route'),
        (2, '01:10:00', 5, 'Cloudy', 'Sea Point Loop');
 
+## Commit History 
 
+1 Initial project setup
+
+2 Created repository, added .gitignore, and initialized README.
+
+3 Add project documentation folder
+
+4 Created /docs directory for ERD, API plan, and SQL script.
+
+5 Draft ERD structure
+
+6 Added initial ERD diagram with entities and relationships.
+
+7 Refine ERD with attributes and keys
+
+8 Updated ERD to include PKs, FKs, and cardinality.
+
+9 Add API endpoint plan (draft)
+
+10 Created Markdown file with basic endpoint routes and methods.
+
+11 Expand API endpoint plan with roles and responses
+
+12 Added role enforcement, request bodies, and success/failure cases.
+
+13 Finalize API endpoint plan
+
+14 Completed endpoint plan with all sections: Authentication, User Profile, Events, Categories, Enrolments, Results.
+
+15 Create SQL database script (tables)
+
+16 Added RaceDay.sql with CREATE TABLE statements for all entities.
+
+17 Add constraints to SQL script
+
+18 Defined PKs, FKs, UNIQUE, NOT NULL, and DEFAULT values.
+
+19 Insert seed data into SQL script
+
+20 Added sample organisers, participants, events, categories, enrolments, and results.
+
+21 Test SQL script execution
+
+22 Verified script runs cleanly on fresh SQL Server instance.
+
+Update README with system overview
+
+Added RaceDay description, roles, and setup notes.
+
+Insert ERD section into README
+
+Documented entities and relationships in README.
+
+Insert API endpoint plan into README
+
+Added full Markdown tables for endpoints.
+
+Insert SQL script overview into README
+
+Documented database design and seed data summary.
+
+Add CI/CD workflow (draft)
+
+Configured GitHub Actions to validate commits.
+
+Refine CI/CD workflow
+
+Ensured SQL script validation and green build screenshot.
+
+Polish documentation
+
+Improved formatting, headings, and consistency across files.
+
+Final review and cleanup
+
+Removed unused files, checked folder structure, ensured clarity.
+
+Final submission commit
+
+Ready for marking: ERD, API plan, SQL script, README, CI/CD all complete.
 
