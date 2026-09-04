@@ -192,39 +192,9 @@ VALUES (1, '03:45:00', 12, 'Sunny', 'Standard Route'),
 
 22 Verified script runs cleanly on fresh SQL Server instance.
 
-Update README with system overview
+23 Update README with system overview
 
-Added RaceDay description, roles, and setup notes.
+25 Added RaceDay description, roles, and setup notes. Read for submission
 
-Insert ERD section into README
 
-Documented entities and relationships in README.
-
-Insert API endpoint plan into README
-
-Added full Markdown tables for endpoints.
-
-Insert SQL script overview into README
-
-Documented database design and seed data summary.
-
-Add CI/CD workflow (draft)
-
-Configured GitHub Actions to validate commits.
-
-Refine CI/CD workflow
-
-Ensured SQL script validation and green build screenshot.
-
-Polish documentation
-
-Improved formatting, headings, and consistency across files.
-
-Final review and cleanup
-
-Removed unused files, checked folder structure, ensured clarity.
-
-Final submission commit
-
-Ready for marking: ERD, API plan, SQL script, README, CI/CD all complete.
 
