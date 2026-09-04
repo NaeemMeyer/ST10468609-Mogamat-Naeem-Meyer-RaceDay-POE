@@ -2,7 +2,7 @@
 
 ## Section A – ERD (Entity Relationship Diagram)
 
-![RaceDay ERD](docs/RaceDay_ERD.png)
+![RaceDay ERD](RaceDay_ERD.png)
 
 Organiser (OrganiserID PK, Name, ContactInfo, Email [Unique], PasswordHash)
 
