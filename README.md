@@ -1,5 +1,23 @@
 # ST10468609-Mogamat-Naeem-Meyer-RaceDay-POE
 
+SECTION A
+Organiser (OrganiserID PK, Name, ContactInfo, Email [Unique], PasswordHash)
+
+Participant (ParticipantID PK, Name, Surname, DOB, Gender, Email [Unique], PasswordHash)
+Event (EventID PK, Title, Date, Location, OrganiserID FK)
+Category (CategoryID PK, EventID FK, Name, Distance, AgeLimit)
+Enrolment (EnrolmentID PK, ParticipantID FK, EventID FK, CategoryID FK, EnrolmentDate, Status [Default: Pending])
+Result (ResultID PK, EnrolmentID FK, FinishTime, Position, WeatherInfo, RouteInfo)
+
+Relationships:
+
+Organiser → Event (1‑to‑many)
+Event → Category (1‑to‑many)
+Participant → Enrolment (1‑to‑many)
+Enrolment → Result (1‑to‑1)
+Participant ↔ Event (many‑to‑many via Enrolment)
+
+
 # Section B – API Endpoint Plan
 
 ## 1. Authentication
