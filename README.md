@@ -63,8 +63,86 @@ Participant ↔ Event (many‑to‑many via Enrolment)
 | POST | /api/results | Captures a participant’s result. | Organiser | { enrolmentId, finishTime, position, weatherInfo?, routeInfo? } | 201 Created; 400 Bad Request; 401 Unauthorized; 403 Forbidden |
 | GET | /api/results/{eventId} | Returns results for an event. | Public | None | 200 OK; 404 Not Found |
 
+# Section C – SQL Database Script
+CREATE TABLE Organiser (
+    OrganiserID INT PRIMARY KEY IDENTITY,
+    Name NVARCHAR(100) NOT NULL,
+    ContactInfo NVARCHAR(200),
+    Email NVARCHAR(100) UNIQUE NOT NULL,
+    PasswordHash NVARCHAR(200) NOT NULL
+);
 
+CREATE TABLE Participant (
+    ParticipantID INT PRIMARY KEY IDENTITY,
+    Name NVARCHAR(100) NOT NULL,
+    Surname NVARCHAR(100) NOT NULL,
+    DOB DATE NOT NULL,
+    Gender NVARCHAR(10),
+    Email NVARCHAR(100) UNIQUE NOT NULL,
+    PasswordHash NVARCHAR(200) NOT NULL
+);
 
+CREATE TABLE Event (
+    EventID INT PRIMARY KEY IDENTITY,
+    Title NVARCHAR(100) NOT NULL,
+    Date DATE NOT NULL,
+    Location NVARCHAR(200),
+    OrganiserID INT FOREIGN KEY REFERENCES Organiser(OrganiserID)
+);
+
+CREATE TABLE Category (
+    CategoryID INT PRIMARY KEY IDENTITY,
+    EventID INT FOREIGN KEY REFERENCES Event(EventID),
+    Name NVARCHAR(100) NOT NULL,
+    Distance DECIMAL(5,2),
+    AgeLimit INT
+);
+
+CREATE TABLE Enrolment (
+    EnrolmentID INT PRIMARY KEY IDENTITY,
+    ParticipantID INT FOREIGN KEY REFERENCES Participant(ParticipantID),
+    EventID INT FOREIGN KEY REFERENCES Event(EventID),
+    CategoryID INT FOREIGN KEY REFERENCES Category(CategoryID),
+    EnrolmentDate DATE DEFAULT GETDATE(),
+    Status NVARCHAR(50) DEFAULT 'Pending'
+);
+
+CREATE TABLE Result (
+    ResultID INT PRIMARY KEY IDENTITY,
+    EnrolmentID INT FOREIGN KEY REFERENCES Enrolment(EnrolmentID),
+    FinishTime TIME,
+    Position INT,
+    WeatherInfo NVARCHAR(200),
+    RouteInfo NVARCHAR(200)
+);
+
+-- Seed Data
+INSERT INTO Organiser (Name, ContactInfo, Email, PasswordHash)
+VALUES ('Cape Runners', '021-555-1234', 'info@caperunners.co.za', 'hash1'),
+       ('Trail Masters', '021-555-5678', 'contact@trailmasters.co.za', 'hash2');
+
+INSERT INTO Participant (Name, Surname, DOB, Gender, Email, PasswordHash)
+VALUES ('Naeem', 'Meyer', '1995-06-15', 'Male', 'naeem@example.com', 'hash3'),
+       ('Sarah', 'Daniels', '1998-09-20', 'Female', 'sarah@example.com', 'hash4');
+
+INSERT INTO Event (Title, Date, Location, OrganiserID)
+VALUES ('Cape Town Marathon', '2026-10-01', 'Cape Town', 1),
+       ('Table Mountain Trail Run', '2026-11-12', 'Cape Town', 2),
+       ('Sea Point Fun Walk', '2026-12-05', 'Sea Point', 1);
+
+INSERT INTO Category (EventID, Name, Distance, AgeLimit)
+VALUES (1, 'Marathon', 42.2, 18),
+       (1, 'Half Marathon', 21.1, 16),
+       (2, 'Trail 15km', 15.0, 18),
+       (3, 'Family Walk', 5.0, NULL);
+
+INSERT INTO Enrolment (ParticipantID, EventID, CategoryID, Status)
+VALUES (1, 1, 1, 'Confirmed'),
+       (2, 3, 4, 'Confirmed');
+
+INSERT INTO Result (EnrolmentID, FinishTime, Position, WeatherInfo, RouteInfo)
+VALUES (1, '03:45:00', 12, 'Sunny', 'Standard Route'),
+       (2, '01:10:00', 5, 'Cloudy', 'Sea Point Loop');
 
 
 
