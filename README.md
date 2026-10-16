@@ -326,4 +326,4 @@ Implemented endpoints include:
   - Enrolments (participant enrols, organiser views)
   -  All tests pass locally and in CI/CD.
 
-![CI/CD Success](docs/ci_cd_success.png)
+![CI/CD Success](PROG6212%20P2%20submission.PNG)
