@@ -198,3 +198,130 @@ VALUES (1, '03:45:00', 12, 'Sunny', 'Standard Route'),
 
 ## PART2 – Restfull API Development
 
+## 1. Project Setup
+The RaceDay API was developed using **ASP.NET Core Web API** with **Entity Framework Core (Code‑First)**.  
+The database schema matches the ERD and SQL script from Part 1, ensuring consistency across all deliverables.  
+
+Key setup details:
+- **Framework:** .NET 6/7 (depending on environment)  
+- **Database:** SQL Server, connected via EF Core  
+- **Authentication:** Session‑based login with hashed passwords (BCrypt)  
+- **Swagger:** Integrated for live endpoint testing and documentation  
+- **CI/CD:** Configured with GitHub Actions to build and run unit tests on every push  
+
+Repository structure:
+- `/src/RaceDayAPI` → API project files (controllers, models, DbContext)  
+- `/docs` → ERD diagram, API plan, SQL script, CI/CD screenshot  
+- `.github/workflows` → CI/CD pipeline configuration  
+- `README.md` → setup instructions, role descriptions, video link  
+
+---
+
+## 2. Run Instructions
+
+
+Follow these steps to set up and run the RaceDay API locally:
+
+1. **Clone the repository**
+   ```bash
+   git clone <your-repo-link>
+   cd RaceDayPOE/src/RaceDayAPI
+   
+2. Update the connection string
+
+Open appsettings.json.
+
+Replace "DefaultConnection" with your SQL Server connection string, for example:
+"ConnectionStrings": {
+  "DefaultConnection": "Server=YOUR_SERVER;Database=RaceDayDB;Trusted_Connection=True;"
+}
+
+3.Apply database migrations
+dotnet ef database update
+
+4. Run the API
+dotnet run
+
+5. Access Swagger UI
+
+Open your browser and navigate to:
+
+https://localhost:5001/swagger
+
+
+##Description of the Two Roles
+The RaceDay system supports two distinct roles with clearly enforced permissions:
+
+Organiser
+
+Can create, update, and delete events.
+
+Defines categories for each event (e.g., Under 20, 10km).
+
+Views all enrolments for their events.
+
+Captures results (finish times and positions) for participants.
+
+Cannot enrol in events or view participant‑only data.
+
+Participant
+
+Registers and logs in to the system.
+
+Views available events and categories.
+
+Enrols in events by selecting a category.
+
+Views their own results after events.
+
+Cannot manage events, categories, or capture results.
+
+Role enforcement ensures that organisers and participants only access the functionality intended for them, maintaining system integrity and security.
+
+
+Functional Endpoints
+Implemented endpoints include:
+
+- Authentication
+  - POST /api/register → Register new user
+  - POST /api/login → Login and start session
+
+- User Profile
+  - GET /api/profile → View own profile
+  - PUT /api/profile → Update own profile
+
+- Events
+  - POST /api/events → Organiser creates event
+  - PUT /api/events/{id} → Organiser updates event
+  - DELETE /api/events/{id} → Organiser deletes event
+  - GET /api/events → All users view events
+
+- Categories
+  - POST /api/categories → Organiser defines category
+  - GET /api/categories → All users view categories
+
+- Enrolments
+  - POST /api/enrolments → Participant enrols in event
+  - GET /api/enrolments/{eventId} → Organiser views enrolments
+
+- Results
+  - POST /api/results → Organiser captures results
+  - GET /api/results/{participantId} → Participant views own results
+
+---
+
+## Swagger Integration
+- Swagger UI integrated for live testing.
+- All endpoints visible and testable.
+- Each endpoint includes description, expected input, and response.
+
+---
+
+## Unit Testing
+- Tests written with xUnit/NUnit.
+- Coverage includes:
+  - Registration & login (success + failure)
+  - Event management (organiser only)
+  - Role enforcement (participant blocked from organiser endpoints)
+  - Enrolments (participant enrols, organiser views)
+  -  All tests pass locally and in CI/CD.
