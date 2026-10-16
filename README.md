@@ -325,3 +325,5 @@ Implemented endpoints include:
   - Role enforcement (participant blocked from organiser endpoints)
   - Enrolments (participant enrols, organiser views)
   -  All tests pass locally and in CI/CD.
+
+![CI/CD Success](docs/ci_cd_success.png)
