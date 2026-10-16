@@ -1,0 +1,34 @@
+[ApiController]
+[Route("api/[controller]")]
+public class AuthController : ControllerBase
+{
+    private readonly RaceDayContext _context;
+    public AuthController(RaceDayContext context) => _context = context;
+
+    [HttpPost("register")]
+    public IActionResult Register([FromBody] Participant participant)
+    {
+        participant.PasswordHash = BCrypt.Net.BCrypt.HashPassword(participant.PasswordHash);
+        _context.Participants.Add(participant);
+        _context.SaveChanges();
+        return Ok("User registered successfully");
+    }
+
+    [HttpPost("login")]
+    public IActionResult Login([FromBody] LoginRequest request)
+    {
+        var user = _context.Participants.FirstOrDefault(u => u.Email == request.Email);
+        if (user == null || !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
+            return Unauthorized("Invalid credentials");
+
+        HttpContext.Session.SetString("UserRole", "Participant");
+        HttpContext.Session.SetInt32("UserId", user.ParticipantId);
+        return Ok("Login successful");
+    }
+}
+
+public class LoginRequest
+{
+    public string Email { get; set; }
+    public string Password { get; set; }
+}
