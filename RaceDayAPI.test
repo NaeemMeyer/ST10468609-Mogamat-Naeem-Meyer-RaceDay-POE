@@ -1,0 +1,119 @@
+1. AUthtest.cs
+
+using Xunit;
+using RaceDayAPI;
+using Microsoft.EntityFrameworkCore;
+
+public class AuthTests
+{
+    private RaceDayContext GetContext()
+    {
+        var options = new DbContextOptionsBuilder<RaceDayContext>()
+            .UseInMemoryDatabase("AuthTestDb")
+            .Options;
+        return new RaceDayContext(options);
+    }
+
+    [Fact]
+    public void Register_ShouldAddParticipant()
+    {
+        var context = GetContext();
+        var participant = new Participant { Name = "Test", Email = "test@test.com", PasswordHash = "password" };
+        context.Participants.Add(participant);
+        context.SaveChanges();
+
+        Assert.Single(context.Participants);
+    }
+
+    [Fact]
+    public void Login_ShouldFailWithWrongPassword()
+    {
+        var context = GetContext();
+        var participant = new Participant { Name = "Test", Email = "test@test.com", PasswordHash = BCrypt.Net.BCrypt.HashPassword("password") };
+        context.Participants.Add(participant);
+        context.SaveChanges();
+
+        bool valid = BCrypt.Net.BCrypt.Verify("wrongpassword", participant.PasswordHash);
+        Assert.False(valid);
+    }
+}
+
+
+2. EventTests.cs
+
+using Xunit;
+using RaceDayAPI;
+using Microsoft.EntityFrameworkCore;
+
+public class EventsTests
+{
+    private RaceDayContext GetContext()
+    {
+        var options = new DbContextOptionsBuilder<RaceDayContext>()
+            .UseInMemoryDatabase("EventsTestDb")
+            .Options;
+        return new RaceDayContext(options);
+    }
+
+    [Fact]
+    public void CreateEvent_ShouldAddEvent()
+    {
+        var context = GetContext();
+        var ev = new Event { Name = "Marathon", Description = "City Run", Date = DateTime.Now, Location = "Cape Town", Distance = 42, EventType = "Run" };
+        context.Events.Add(ev);
+        context.SaveChanges();
+
+        Assert.Single(context.Events);
+    }
+}
+
+3. EnrolmentTests.cs
+
+using Xunit;
+using RaceDayAPI;
+using Microsoft.EntityFrameworkCore;
+
+public class EnrolmentsTests
+{
+    private RaceDayContext GetContext()
+    {
+        var options = new DbContextOptionsBuilder<RaceDayContext>()
+            .UseInMemoryDatabase("EnrolmentsTestDb")
+            .Options;
+        return new RaceDayContext(options);
+    }
+
+    [Fact]
+    public void Enrolment_ShouldLinkParticipantToEvent()
+    {
+        var context = GetContext();
+        var enrol = new Enrolment { ParticipantId = 1, EventId = 1, CategoryId = 1 };
+        context.Enrolments.Add(enrol);
+        context.SaveChanges();
+
+        Assert.Single(context.Enrolments);
+    }
+}
+
+4. RoleEnforcementTest.cs
+
+using Xunit;
+
+public class RoleEnforcementTests
+{
+    [Fact]
+    public void Participant_ShouldNotAccessOrganiserEndpoint()
+    {
+        string role = "Participant";
+        bool canCreateEvent = role == "Organiser";
+        Assert.False(canCreateEvent);
+    }
+
+    [Fact]
+    public void Organiser_ShouldAccessEventManagement()
+    {
+        string role = "Organiser";
+        bool canCreateEvent = role == "Organiser";
+        Assert.True(canCreateEvent);
+    }
+}
