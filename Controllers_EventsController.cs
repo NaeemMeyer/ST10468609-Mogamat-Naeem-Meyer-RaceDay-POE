@@ -83,3 +83,12 @@ public class EventsController : Controller
         return RedirectToAction(nameof(Index));
     }
 }
+
+public async Task<IActionResult> Details(int id)
+{
+    var eventDetails =
+        await _apiService.GetAsync<EventDetailsViewModel>(
+            $"events/{id}");
+
+    return View(eventDetails);
+}
