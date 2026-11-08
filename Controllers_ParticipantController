@@ -1,21 +1,24 @@
 using Microsoft.AspNetCore.Mvc;
+using RaceDayMVC.Services;
+using RaceDayMVC.ViewModels;
 
 namespace RaceDayMVC.Controllers;
 
 public class ParticipantController : Controller
 {
-    public IActionResult Index()
+    private readonly ApiService _apiService;
+
+    public ParticipantController(ApiService apiService)
     {
-        var role =
-            HttpContext.Session.GetString("Role");
+        _apiService = apiService;
+    }
 
-        if(role != "Participant")
-        {
-            return RedirectToAction(
-                "Login",
-                "Account");
-        }
+    public async Task<IActionResult> Index()
+    {
+        var events =
+            await _apiService.GetAsync<List<EventViewModel>>(
+                "events");
 
-        return View();
+        return View(events);
     }
 }
