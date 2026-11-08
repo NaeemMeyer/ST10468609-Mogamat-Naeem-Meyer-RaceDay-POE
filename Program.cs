@@ -3,6 +3,7 @@ using RaceDayMVC.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddHttpClient<ApiService>();
 
