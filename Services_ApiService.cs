@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using RaceDayMVC.Models;
 using System.Text;
 using System.Text.Json;
 
@@ -55,35 +56,10 @@ public class ApiService
 
         return JsonConvert.DeserializeObject<TResponse>(json);
     }
-    
-public async Task<string> UploadFileAsync(
-    IFormFile file)
-{
-    var form =
-        new MultipartFormDataContent();
 
-    var stream =
-        file.OpenReadStream();
+    // NEW METHOD FOR AZURE BLOB UPLOADS THROUGH API
+    public async Task<string> UploadFileAsync(IFormFile file)
+    {
+        var formData = new MultipartFormDataContent();
 
-    var fileContent =
-        new StreamContent(stream);
-
-    form.Add(
-        fileContent,
-        "file",
-        file.FileName);
-
-    var response =
-        await _httpClient.PostAsync(
-            BaseUrl + "upload",
-            form);
-
-    response.EnsureSuccessStatusCode();
-
-    var result =
-        await response.Content
-            .ReadFromJsonAsync<UploadResponse>();
-
-    return result.Url;
-}
-}
+      
