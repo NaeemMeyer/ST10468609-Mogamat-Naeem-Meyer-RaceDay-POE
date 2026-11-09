@@ -1,0 +1,42 @@
+name: RaceDay CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - part2
+      - part3
+
+  pull_request:
+    branches:
+      - main
+      - part2
+      - part3
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Restore Dependencies
+      run: dotnet restore
+
+    - name: Build RaceDay API
+      run: dotnet build src/RaceDayAPI/RaceDayAPI.csproj --configuration Release --no-restore
+
+    - name: Build RaceDay MVC
+      run: dotnet build src/RaceDayMVC/RaceDayMVC.csproj --configuration Release --no-restore
+
+    - name: Run Unit Tests
+      run: dotnet test tests/RaceDayAPI.Tests/RaceDayAPI.Tests.csproj --configuration Release --no-build
