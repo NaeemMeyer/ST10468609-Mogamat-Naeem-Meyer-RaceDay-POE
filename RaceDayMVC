@@ -1,0 +1,11 @@
+Docker Build Command : docker build -t racedaymvc .
+
+Docker Run Command : docker run -d -p 8080:80 --name racedaymvc racedaymvc
+
+Verify Running Container : docker ps
+
+Stop Container : docker stop racedaymvc
+
+Remove Container : docker rm racedaymvc
+
+Docker Compose Run : docker compose up -d
