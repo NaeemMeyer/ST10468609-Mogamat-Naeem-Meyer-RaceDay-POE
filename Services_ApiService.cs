@@ -62,4 +62,26 @@ public class ApiService
     {
         var formData = new MultipartFormDataContent();
 
-      
+        var stream = file.OpenReadStream();
+
+        var streamContent = new StreamContent(stream);
+
+        formData.Add(
+            streamContent,
+            "file",
+            file.FileName);
+
+        var response =
+            await _httpClient.PostAsync(
+                BaseUrl + "upload",
+                formData);
+
+        response.EnsureSuccessStatusCode();
+
+        var result =
+            await response.Content
+                .ReadFromJsonAsync<UploadResponse>();
+
+        return result.Url;
+    }
+}
