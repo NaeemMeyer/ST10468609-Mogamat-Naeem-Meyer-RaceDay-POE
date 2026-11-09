@@ -20,10 +20,10 @@ public class UploadController : ControllerBase
     public async Task<IActionResult> Upload(
         IFormFile file)
     {
-        if(file == null)
-            return BadRequest();
+        if (file == null)
+            return BadRequest("No file supplied.");
 
-        var url =
+        string url =
             await _blobService
                 .UploadAsync(file);
 
