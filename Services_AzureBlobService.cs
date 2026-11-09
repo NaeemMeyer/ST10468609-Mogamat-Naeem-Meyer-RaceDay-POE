@@ -1,0 +1,41 @@
+using Azure.Storage.Blobs;
+
+namespace RaceDayAPI.Services;
+
+public class AzureBlobService
+{
+    private readonly BlobContainerClient _container;
+
+    public AzureBlobService(IConfiguration configuration)
+    {
+        string connectionString =
+            configuration["AzureBlobStorage:ConnectionString"];
+
+        string containerName =
+            configuration["AzureBlobStorage:ContainerName"];
+
+        _container =
+            new BlobContainerClient(
+                connectionString,
+                containerName);
+
+        _container.CreateIfNotExists();
+    }
+
+    public async Task<string> UploadAsync(IFormFile file)
+    {
+        string fileName =
+            Guid.NewGuid() +
+            Path.GetExtension(file.FileName);
+
+        BlobClient blob =
+            _container.GetBlobClient(fileName);
+
+        using var stream =
+            file.OpenReadStream();
+
+        await blob.UploadAsync(stream, overwrite: true);
+
+        return blob.Uri.ToString();
+    }
+}
