@@ -358,26 +358,49 @@ Implemented endpoints include:
 
 ## Commit History
 Create Part 3 branch
+
 Create ASP.NET MVC project
+
 Configure MVC session management
+
 Create login page
+
 Create registration page
+
 Implement session authentication
+
 Add role-based navigation
+
 Create organiser dashboard
+
 Implement event management
+
 Implement category management
+
 Implement enrolment management
+
 Implement results management
+
 Create participant homepage
+
 Implement event details page
+
 Add event registration functionality
+
 Create My Events page
+
 Create My Results page
+
 Add profile management
+
 Integrate Azure Blob Storage
+
 Configure Docker support
+
 Create GitHub Actions workflow
+
 Add CI/CD pipeline validation
+
 Update README documentation
+
 Final project cleanup and submission preparation
