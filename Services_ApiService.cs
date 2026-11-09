@@ -55,4 +55,35 @@ public class ApiService
 
         return JsonConvert.DeserializeObject<TResponse>(json);
     }
+    
+public async Task<string> UploadFileAsync(
+    IFormFile file)
+{
+    var form =
+        new MultipartFormDataContent();
+
+    var stream =
+        file.OpenReadStream();
+
+    var fileContent =
+        new StreamContent(stream);
+
+    form.Add(
+        fileContent,
+        "file",
+        file.FileName);
+
+    var response =
+        await _httpClient.PostAsync(
+            BaseUrl + "upload",
+            form);
+
+    response.EnsureSuccessStatusCode();
+
+    var result =
+        await response.Content
+            .ReadFromJsonAsync<UploadResponse>();
+
+    return result.Url;
+}
 }
