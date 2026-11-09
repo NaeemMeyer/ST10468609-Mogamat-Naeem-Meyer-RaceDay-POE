@@ -15,4 +15,6 @@ public class EventViewModel
     public string EventType { get; set; }
 
     public IFormFile BannerImage { get; set; }
+
+    public string BannerUrl { get; set; }
 }
